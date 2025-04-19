@@ -3,7 +3,6 @@
     "description": "Easy join for doctrine",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "autoload": {
         "psr-4": {
             "Wertelko\\DoctrineEasyJoin\\": "src/"
