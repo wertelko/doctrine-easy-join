@@ -1,8 +1,8 @@
 # Doctrine ORM Package with Traits for Routine Task Simplification
 
-This is a simple package for `doctrine/orm` that allows you to use JoinTrain to simplify certain joins.
+This is a simple package for `doctrine/orm` that allows you to use JoinTrain for repository to simplify certain joins.
 
-## WithTrait
+## JoinTrait
 
 Enables fetching entities along with others.
 
@@ -11,7 +11,7 @@ Enables fetching entities along with others.
 ```php
 class CategoryRepository extends ServiceEntityRepository
 {
-    use WithTrait; // <-- add trait
+    use JoinTrait; // <-- add trait
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -33,12 +33,15 @@ class CategoryController extends AbstractController
 
     public function index(): Response
     {
-        $result = $this->categoryRepository
-            ->join(['products', 'products.image']) // <-- load eager with products and products images
+        $category = $this->categoryRepository
+            ->join([ // load eager with products and products images
+            'products', // <-- $category->getProducts() is initialized
+            'products.image' // <-- $category->getProducts()->first()->getImage() is initialized too
+            ])
             ->getQuery()
             ->getResult();
         
-        return $this->json($result);
+        return $this->json($category);
     }
 }
 ```
